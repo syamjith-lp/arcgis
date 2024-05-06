@@ -1,0 +1,18 @@
+<div>
+    <!-- filter Section -->
+</div>
+
+<app-site-finder-esiri
+[practiceLocation]="practiceLocationData"
+[specialty]="specialtyData"
+[comparativeGrid]="isComparativeGrid && isComparative "
+(sketchComplete)="analysisReady($event)"
+(shapeChanged)="isShapeChanged($event)"
+(isError)="isParcelsError($event)"
+(mapReady)="onMapReady($event)"
+(sketchList)="onSketch($event)"
+(parcelList)="onParcelList($event)"
+(selectedParcelList)="onParcelSelected($event)"
+(selectedParcel)="isSelectedParcel($event)"
+(addToList)="triggerAddToList($event)">
+</app-site-finder-esiri>
