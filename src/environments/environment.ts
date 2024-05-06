@@ -1,19 +1,15 @@
-// This file can be replaced during build by using the `fileReplacements` array.
-// `ng build --prod` replaces `environment.ts` with `environment.prod.ts`.
-// The list of file replacements can be found in `angular.json`.
-
 export const environment = {
-  production: false,
-  apiUrl: 'https://scoutdevwebapi.azurewebsites.net/api/',
+  production: true,
+  apiUrl: 'https://scoutprodwebapi.azurewebsites.net/api/',
   locationUrl: 'http://app.scoutinsight.ai/api/',
-  swellApiUrl: 'https://cvg-devapi.azurewebsites.net/api/',
-  swellWebUrl: 'https://cvgdevstorage.z20.web.core.windows.net/#/',
+  swellApiUrl: 'https://cvg-prodapi.azurewebsites.net/api/',
+  swellWebUrl: 'https://cvgprodstorage.z13.web.core.windows.net/#/',
 
   clientId: 'a1f6ec26-cc1c-4b7c-8642-63c615e1b809',
-  redirectUri: 'http://localhost:4200/',
+  redirectUri: 'https://www.scoutinsight.ai',
 
   // Map
-  webMapId: 'd872f01816314754b86657c77280f030',
+  webMapId: 'eaacbd9b777f472a90055b9cb0d441d3',
   downloadSegment: 'https://downloads.esri.com/esri_content_doc/dbl/us/tapestry',
 
   // Layer URL
@@ -27,11 +23,3 @@ export const environment = {
   geoenrichmentUrl: 'https://geoenrich.arcgis.com/arcgis/rest/services/World/geoenrichmentserver/Geoenrichment/Enrich',
   demographicData: 'https://geoenrich.arcgis.com/arcgis/rest/services/World/geoenrichmentserver/Geoenrichment'
 };
-
-/*
- * For easier debugging in development mode, you can import the following file
- * to ignore zone related error stack frames such as `zone.run`, `zoneDelegate.invokeTask`.
- *
- * This import should be commented out in production mode because it will have a negative impact
- * on performance if an error is thrown.
- */

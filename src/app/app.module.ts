@@ -6,11 +6,7 @@ import { AppComponent } from './app.component';
 import { SiteFinderMainComponent } from './site-finder-main/site-finder-main.component';
 import { SiteFinderEsiriComponent } from './site-finder-esiri/site-finder-esiri.component';
 import { HTTP_INTERCEPTORS, HttpClientModule } from '@angular/common/http';
-// import {
-//   MSALGuardConfigFactory,
-//   MSALInstanceFactory,
-//   MSALInterceptorConfigFactory,
-// } from './interceptor/interceptor.helper';
+import { HttpConfigInterceptor } from './interceptor/httpconfig.interceptor';
 
 @NgModule({
   declarations: [
@@ -18,13 +14,14 @@ import { HTTP_INTERCEPTORS, HttpClientModule } from '@angular/common/http';
     SiteFinderMainComponent,
     SiteFinderEsiriComponent,
   ],
-  imports: [
-    BrowserModule,
-    AppRoutingModule,
-    HttpClientModule,
-   
+  imports: [BrowserModule, AppRoutingModule, HttpClientModule],
+  providers: [
+    {
+      provide: HTTP_INTERCEPTORS,
+      useClass: HttpConfigInterceptor,
+      multi: true,
+    },
   ],
-  providers: [],
   bootstrap: [AppComponent],
 })
 export class AppModule {}
