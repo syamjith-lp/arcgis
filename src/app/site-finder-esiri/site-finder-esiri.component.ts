@@ -14,6 +14,8 @@ import GraphicsLayer from '@arcgis/core/layers/GraphicsLayer';
 import MapView from '@arcgis/core/views/MapView';
 import Sketch from '@arcgis/core/widgets/Sketch';
 import * as webMercatorUtils from '@arcgis/core/geometry/support/webMercatorUtils';
+import BasemapGallery from '@arcgis/core/widgets/BasemapGallery';
+import Expand from '@arcgis/core/widgets/Expand';
 
 @Component({
   selector: 'app-site-finder-esiri',
@@ -102,7 +104,7 @@ export class SiteFinderEsiriComponent implements OnInit {
     // Sketch widget
     this.sketchWidget();
     // Gallery widget
-    // this.galleryWidget();
+    this.galleryWidget();
     // Legend widget
     // this.legendWidget();
   }
@@ -209,4 +211,17 @@ export class SiteFinderEsiriComponent implements OnInit {
       this.sketchList.emit(data);
     }
   }
+
+  galleryWidget() {
+    const basemapGallery = new BasemapGallery({
+      view: this.mapView,
+    });
+
+    this.baseMapExpand = new Expand({
+      view: this.mapView,
+      content: basemapGallery,
+      expanded: false,
+    });
+  }
+
 }
