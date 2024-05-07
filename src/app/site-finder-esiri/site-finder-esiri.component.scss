@@ -1,0 +1,35 @@
+.esri-view {
+    padding: 0;
+    margin: 0;
+    width: 100%;
+    height: 75vh;
+  }
+  
+  #mapViewNode {
+    padding: 0;
+    margin: 0;
+    height: 200%;
+    width: 100%;
+  }
+
+  :host>>> .esri-popup__navigation {
+    display: none;
+  }
+
+  .f-12 {
+    font-size: 12px;
+  }
+
+:host>>> .esri-sketch__button.esri-sketch__button--selected, .esri-sketch__button.esri-sketch__button--selected:hover {
+    color: #151515;
+    fill: #151515;
+    background-color: #eaeaea;
+}
+
+.map-height{
+  height: 50vh;
+}
+
+:host>>> .layer-link:hover {
+  color: blue !important;
+}
