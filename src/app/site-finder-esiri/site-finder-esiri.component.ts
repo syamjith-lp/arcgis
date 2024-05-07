@@ -57,7 +57,7 @@ export class SiteFinderEsiriComponent implements OnInit {
 
   getEsriToken() {
     this.esriMapService.getEsriAccessToken().subscribe(
-      (res) => {
+      (res:any) => {
         if (res.token) {
           config.apiKey = res.token;
           this.initMapConfig().then(() => {
@@ -65,7 +65,7 @@ export class SiteFinderEsiriComponent implements OnInit {
           });
         }
       },
-      (error) => {
+      (error:any) => {
         alert('errr');
       }
     );
@@ -79,7 +79,7 @@ export class SiteFinderEsiriComponent implements OnInit {
     return view.when();
   }
 
-  initMap(config: { container: HTMLDivElement }): __esri.MapView {
+  initMap(config: { container: HTMLDivElement }){
     const map = new Map({
       basemap: 'arcgis-navigation',
       layers: [this.graphicsLayer],
