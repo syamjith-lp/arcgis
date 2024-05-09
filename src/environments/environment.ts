@@ -13,10 +13,10 @@ export const environment = {
   downloadSegment: 'https://downloads.esri.com/esri_content_doc/dbl/us/tapestry',
 
   // Layer URL
-  householdIncomeLayer: 'https://demographics5.arcgis.com/arcgis/rest/services/USA_Demographics_and_Boundaries_2022/MapServer',
-  populationLayer: 'https://demographics5.arcgis.com/arcgis/rest/services/USA_Demographics_and_Boundaries_2022/MapServer',
-  censusLayer: '  https://demographics5.arcgis.com/arcgis/rest/services/USA_Demographics_and_Boundaries_2022/MapServer',
-  ageLayer: 'https://demographics5.arcgis.com/arcgis/rest/services/USA_Demographics_and_Boundaries_2022/MapServer',
+  householdIncome: 'https://demographics5.arcgis.com/arcgis/rest/services/USA_Demographics_and_Boundaries_2022/MapServer',
+  population: 'https://demographics5.arcgis.com/arcgis/rest/services/USA_Demographics_and_Boundaries_2022/MapServer',
+  census: '  https://demographics5.arcgis.com/arcgis/rest/services/USA_Demographics_and_Boundaries_2022/MapServer',
+  age: 'https://demographics5.arcgis.com/arcgis/rest/services/USA_Demographics_and_Boundaries_2022/MapServer',
 
   parcelAtlasUrl: 'https://services8.arcgis.com/2G8bTpCps4vdRut5/arcgis/rest/services/ParcelAtlas_V2_4/FeatureServer/0',
   driveTimeLayer: 'https://route.arcgis.com/arcgis/rest/services/World/ServiceAreas/NAServer/ServiceArea_World/solveServiceArea',

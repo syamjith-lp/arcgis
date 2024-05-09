@@ -15,7 +15,7 @@ export class HttpConfigInterceptor implements HttpInterceptor {
         const isOtpUrl = request.url.includes(`${environment.swellApiUrl}auth/2fa`);
         const isSwellApiUrl = request.url.includes(`${environment.swellApiUrl}`);
 
-        const token: string = 'eyJhbGciOiJIUzI1NiIsInR5cCI6IkpXVCJ9.eyJ1c2VybmFtZSI6ImJ3eWxpZUBtb250ZWNpdG9tYWMuY29tIiwiaWF0IjoxNzE1MDU4MjMwLCJleHAiOjE3MTUwODcwMzAsInN1YiI6ImJ3eWxpZUBtb250ZWNpdG9tYWMuY29tIn0.Yb_GxEOwWEYA3rKEuj54-6fI5tbKqfFPbKUtKy6rsc4'
+        const token: string = 'eyJhbGciOiJIUzI1NiIsInR5cCI6IkpXVCJ9.eyJ1c2VybmFtZSI6ImJ3eWxpZUBtb250ZWNpdG9tYWMuY29tIiwiaWF0IjoxNzE1MjMzNDY5LCJleHAiOjE3MTUyNjIyNjksInN1YiI6ImJ3eWxpZUBtb250ZWNpdG9tYWMuY29tIn0.m-Muy3SU3OEWd5nztGzs_0iXMUiJdeKRBzEtkhNnU6Y'
 
         if (token && !isExchangeUrl) {
             request = request.clone({ headers: request.headers.set('Authorization', token) });

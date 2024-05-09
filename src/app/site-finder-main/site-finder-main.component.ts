@@ -10,17 +10,18 @@ export class SiteFinderMainComponent implements OnInit {
   public specialtyData: any;
   public isComparative = false;
   public isComparativeGrid = false;
+  demographics: any='';
+  items = [
+    { key: 'householdIncome', label: 'Median Household Income' },
+    { key: 'population', label: 'Population' },
+    { key: 'census', label: 'Population Growth' },
+    { key: 'age', label: 'Population Age' },
+  ];
   constructor() {}
 
   ngOnInit(): void {}
 
-  analysisReady(event: any) {}
-  isShapeChanged(event: any) {}
-  isParcelsError(event: any) {}
-  onMapReady(event: any) {}
-  onSketch(event: any) {}
-  onParcelList(event: any) {}
-  onParcelSelected(event: any) {}
-  isSelectedParcel(event: any) {}
-  triggerAddToList(event: any) {}
+  onItemSelected(key: any) {
+    this.demographics = key.target.value;
+  }
 }
