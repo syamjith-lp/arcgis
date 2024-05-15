@@ -294,8 +294,8 @@ export enum Action {
   export enum Icon {
     width = '24px',
     height = '24px',
-    iconGreen = '/assets/img/icon/icon-green.png',
-    iconBlue = '/assets/img/icon/icon-blue.png',
+    iconGreen = '/assets/icon-green.png',
+    iconBlue = '/assets/icon-blue.png',
     iconYellow = '/assets/img/icon/icon-yellow.png',
     iconPurple = '/assets/img/icon/icon-purple.png',
     iconRed = '/assets/img/icon/icon-red.png',

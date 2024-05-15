@@ -1,0 +1,28 @@
+<button
+  class="btn btn-primary-outline layerButton text-left"
+  (click)="this.show = !this.show"
+>
+  Layers
+  <span><em class="fa fa-caret-down angleIcon"></em></span>
+</button>
+
+<div *ngIf="show" (click)="$event.stopPropagation()" class="layersDiv">
+  <div [formGroup]="layerForm">
+    <!--Near By Mobs-->
+    <div class="row sitefinder-link ml-n2 layersDropdown">
+      <div class="px-1 custom-control custom-switch" id="toggleButtonDiv">
+        <input
+          type="checkbox"
+          class="custom-control-input p-0"
+          name="mob"
+          id="nearByMobs"
+          formControlName="nearByMobs"
+          (change)="toggleSwitch('mob')"
+        />
+        <label class="custom-control-label toggle-label" for="nearByMobs"
+          >Nearby MOBs</label
+        >
+      </div>
+    </div>
+  </div>
+</div>

@@ -1,4 +1,4 @@
-<div>
+<div style="display: flex">
   <!-- filter Section -->
   <!-- DEMOGRAPHICS -->
   <div class="demoGraphics">
@@ -9,6 +9,12 @@
       </option>
     </select>
   </div>
+  <app-site-finder-layers (layers)="layers($event)" [isSketch]="isSketch"></app-site-finder-layers>
 </div>
 
-<app-site-finder-esiri [demographics]="demographics"> </app-site-finder-esiri>
+<app-site-finder-esiri
+  (sketchList)="onSketch($event)"
+  (shapeChanged)="isShapeChanged($event)"
+  [demographics]="demographics"
+>
+</app-site-finder-esiri>

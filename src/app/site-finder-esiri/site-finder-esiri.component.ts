@@ -124,6 +124,7 @@ export class SiteFinderEsiriComponent implements OnInit {
       'rgb(1, 133, 113)',
     ],
   };
+  
   constructor(public esriMapService: EsriMapService) {}
 
   ngOnInit(): void {

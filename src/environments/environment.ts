@@ -7,6 +7,7 @@ export const environment = {
 
   clientId: 'a1f6ec26-cc1c-4b7c-8642-63c615e1b809',
   redirectUri: 'https://www.scoutinsight.ai',
+  localHost:'http://localhost:4200/',
 
   // Map
   webMapId: 'eaacbd9b777f472a90055b9cb0d441d3',
