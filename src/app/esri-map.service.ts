@@ -20,4 +20,12 @@ export class EsriMapService {
     const url = this.siteFinder + '/' + filterData.type;
     return this.http.post<any>(url, filterData);
   }
+  getGeoLocations(data: any): Observable<any> {
+    const url = this.siteFinder + '/geocode/bulk';
+    return this.http.post(url, data);
+  }
+  getParcelScore(data: any): Observable<any> {
+    const url = this.siteFinder + '/parcel/score';
+    return this.http.post<any>(url, data);
+  }
 }

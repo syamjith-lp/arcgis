@@ -23,6 +23,8 @@ import { environment } from 'src/environments/environment';
 import ClassBreaksRenderer from '@arcgis/core/renderers/ClassBreaksRenderer';
 import ClassBreakInfo from '@arcgis/core/renderers/support/ClassBreakInfo';
 import SimpleFillSymbol from '@arcgis/core/symbols/SimpleFillSymbol';
+import SimpleRenderer from '@arcgis/core/renderers/SimpleRenderer';
+import Graphic from '@arcgis/core/Graphic';
 
 @Component({
   selector: 'app-site-finder-esiri',
@@ -47,6 +49,8 @@ export class SiteFinderEsiriComponent implements OnInit {
   @Input() public comparativeGrid!: boolean;
 
   mapView!: __esri.MapView;
+  parcelLayer: any;
+  public parcelAtlas: any;
 
   graphicsLayer = new GraphicsLayer();
   sketch: any;
@@ -124,7 +128,10 @@ export class SiteFinderEsiriComponent implements OnInit {
       'rgb(1, 133, 113)',
     ],
   };
-  
+  defaultParcelLayer = new FeatureLayer({
+    url: environment.parcelAtlasUrl,
+  });
+
   constructor(public esriMapService: EsriMapService) {}
 
   ngOnInit(): void {
@@ -285,7 +292,7 @@ export class SiteFinderEsiriComponent implements OnInit {
       }
 
       // Reference query layer
-      // this.isParcelFeatures(event);
+      this.isParcelFeatures(event);
 
       const data = {
         event,
@@ -492,4 +499,78 @@ export class SiteFinderEsiriComponent implements OnInit {
       classBreakInfos,
     });
   }
+
+  isActiveParcelAtlas(data: any) {
+    console.log(data);
+    // Remove Parcel Atlas
+    this.mapView.map.remove(this.parcelLayer);
+    this.parcelAtlas = data.parcel;
+
+    if (data?.layer?.parcel) {
+      // Parcel layer render
+      const parcelRender = new SimpleRenderer({
+        symbol: new SimpleFillSymbol({
+          style: 'none',
+          outline: {
+            color: 'blue',
+            width: '0.6px',
+          },
+        }),
+      });
+
+      this.parcelLayer = new FeatureLayer({
+        url: environment.parcelAtlasUrl,
+        visible:true,
+        definitionExpression: data.parcel,
+        renderer: parcelRender,
+      });
+
+      this.mapView.map.add(this.parcelLayer, 0);
+
+      if (this.oldSketch) {
+        this.isParcelFeatures(this.oldSketch);
+      }
+      // this.popupTemplate(this.parcelLayer);
+    }
+
+    // Select Parcel
+    // this.onParcelSelect();
+  }
+
+  isParcelFeatures(event: any) {
+    console.log(event);
+
+    const parcelQuery: __esri.QueryProperties = {
+      spatialRelationship: 'intersects',
+      geometry: event.graphic.geometry,
+      outFields: ['*'],
+      where: this.parcelAtlas ? this.parcelAtlas : '',
+      returnGeometry: false,
+    };
+
+    let layer: any;
+    let isFilterParcel: boolean;
+    if (this.parcelLayer) {
+      layer = this.parcelLayer;
+      isFilterParcel = true;
+    } else {
+      layer = this.defaultParcelLayer;
+      isFilterParcel = false;
+    }
+
+    layer
+      .queryFeatures(parcelQuery)
+      .then((results: any) => {
+        const res = results.features.map((item: any) => item.attributes);
+        const filterData = res.filter((item: any) => {
+          return item.FID > 0;
+        });
+        console.log(results)
+        this.parcelList.emit({ filterData, isFilterParcel });
+      })
+      .catch(() => {
+        this.isError.emit(true);
+      });
+  }
+  
 }

@@ -9,12 +9,13 @@
       </option>
     </select>
   </div>
-  <app-site-finder-layers (layers)="layers($event)" [isSketch]="isSketch"></app-site-finder-layers>
+  <app-site-finder-layers (parcelAtlas)="isParcelAtlas($event)" (layers)="layers($event)" [isSketch]="isSketch"></app-site-finder-layers>
 </div>
 
 <app-site-finder-esiri
   (sketchList)="onSketch($event)"
   (shapeChanged)="isShapeChanged($event)"
   [demographics]="demographics"
+  (parcelList)="onParcelList($event)"
 >
 </app-site-finder-esiri>

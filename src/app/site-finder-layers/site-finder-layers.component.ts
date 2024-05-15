@@ -1,7 +1,7 @@
 import { Component, EventEmitter, Input, Output } from '@angular/core';
 import { FormControl, FormGroup } from '@angular/forms';
-import { Layers } from '../common.enum';
-
+import { Layers, ParcelLayerAllCode } from '../common.enum';
+import { EsriMapService } from '../esri-map.service';
 
 @Component({
   selector: 'app-site-finder-layers',
@@ -11,6 +11,12 @@ import { Layers } from '../common.enum';
 export class SiteFinderLayersComponent {
   @Input() public isSketch: any;
   @Output() layers = new EventEmitter<any>();
+  @Output() parcelAtlas = new EventEmitter<any>();
+  public parcelAllLayer = ParcelLayerAllCode;
+
+  public isParcel = false;
+  public selectedParcel: any;
+  public doctorLocations: any[] = [];
 
   show = false;
   public layerForm = new FormGroup({
@@ -25,8 +31,12 @@ export class SiteFinderLayersComponent {
     lotSizeMax: new FormControl(),
     locationData: new FormControl(false),
   });
+
+  constructor(public siteFinderService: EsriMapService) {}
   ngOnChanges() {
-    console.log(this.isSketch);
+  }
+  ngOnInit(): void {
+    this.getParcel();
   }
 
   toggleSwitch(layer: any) {
@@ -37,12 +47,62 @@ export class SiteFinderLayersComponent {
         this.polygonAlert();
         this.layerForm.controls.nearByMobs.reset();
       }
+    } else if (layer == 'hospital') {
+      if (this.isSketch) {
+        this.isLayer(Layers.hospital);
+      } else if (this.layerForm.value.hospital) {
+        this.polygonAlert();
+        this.layerForm.controls.hospital.reset();
+      }
+    } else if (layer == 'competitors') {
+    } else if (layer == 'primaryCare') {
+      if (this.isSketch) {
+        this.isLayer(Layers.primaryCare);
+      } else if (this.layerForm.value.primaryCare) {
+        this.polygonAlert();
+        this.layerForm.controls.primaryCare.reset();
+      }
+    } else if (layer == 'referringPhysicians') {
     }
+  }
+  toggleAtlasParcel(): void {
+    this.isParcel = this.layerForm?.value?.parcel!;
+    if (this.selectedParcel) {
+      this.isParcelAtlas();
+    } else {
+      this.layerForm.controls.parcel.reset();
+      alert('Land Use Code should not be an empty value');
+    }
+  }
+  isParcelAtlas() {
+    const data = {
+      layer: this.layerForm.value,
+      parcel: this.selectedParcel,
+      doctorLocations: this.doctorLocations,
+    };
+    this.parcelAtlas.emit(data);
   }
   polygonAlert() {
     alert('Polygon is required');
   }
+  getParcel() {
+    // this.landUseCode = this.parcelLayerDefaultLandCode;
+    this.selectedParcel = this.parcelAllLayer;
+    // this.parcelSelectedLayer = this.parcelAllLayer;
+  }
   isLayer(layer: any) {
     this.layers.emit({ activeLayer: layer, layerForm: this.layerForm.value });
+  }
+
+  getGeoLocationByDoctorLocation(addressList: any): void {
+    // this.isFilterLoader.emit(true);
+    this.siteFinderService
+      .getGeoLocations(addressList)
+      .subscribe((res: any) => {
+        this.doctorLocations = res.data.geocoded;
+
+        this.isParcelAtlas();
+        // this.isFilterLoader.emit(false);
+      });
   }
 }

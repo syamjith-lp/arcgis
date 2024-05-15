@@ -48,17 +48,33 @@ export class SiteFinderMainComponent implements OnInit {
   public selectedLayers: any[] = [];
   public layersType: any;
   public icon: any = Icon;
+  private practiceLayer!: __esri.FeatureLayer;
   private nearByMobLayer!: __esri.FeatureLayer;
+  private hospitalLayer!: __esri.FeatureLayer;
+  private competitorLayer!: __esri.FeatureLayer;
+  private primaryCareLayer!: __esri.FeatureLayer;
+  private referringPhysicianLayer!: __esri.FeatureLayer;
+  private dynamicLayer!: __esri.FeatureLayer;
+  private addressLayer!: __esri.FeatureLayer;
+
   private montecitoOwnLayer!: __esri.FeatureLayer;
   private subscriptions: Subscription[] = [];
   private nearByMobService: any;
+  private practiceService: any;
+  private hospitalService: any;
+  private primaryCareService: any;
+  private competitorService: any;
+  private referringPhysicianService: any;
 
+  public practiceLocationType: any;
+  public specialtyType: any;
   items = [
     { key: 'householdIncome', label: 'Median Household Income' },
     { key: 'population', label: 'Population' },
     { key: 'census', label: 'Population Growth' },
     { key: 'age', label: 'Population Age' },
   ];
+  public parcelRecommendations: any;
 
   @ViewChild(SiteFinderEsiriComponent) mapApi!: SiteFinderEsiriComponent;
 
@@ -148,6 +164,52 @@ export class SiteFinderMainComponent implements OnInit {
       this.nearByMobs = null;
       this.montecitoOwn = null;
     }
+    if (activeLayer === Layers.hospital && this.layersType?.hospital) {
+      this.hospital = null;
+      // this.isMapLoader = true;
+      const option = {
+        title: 'Hospital',
+        type: 'buildings',
+        layer: 'hospital',
+        practiceName: '~',
+        speciality: '~',
+        icon: this.icon.iconHospital,
+        activeLayer: this.hospitalLayer,
+      };
+
+      this.isHospital(option);
+    } else if (!this.layersType?.hospital) {
+      if (this.hospitalService) {
+        // this.isMapLoader = false;
+        this.hospitalService.unsubscribe();
+      }
+      this.mapApi.mapView.map.remove(this.hospitalLayer);
+      this.hospital = null;
+    }
+    if (activeLayer === Layers.primaryCare && this.layersType?.primaryCare) {
+      this.primaryCare = null;
+      // this.isMapLoader = true;
+      const option = {
+        title: 'Primary Care',
+        type: 'buildings-speciality',
+        layer: 'primary-care',
+        practiceName: this.practiceLocationType
+          ? this.practiceLocationType
+          : '~',
+        speciality: this.specialtyType ? this.specialtyType : '~',
+        icon: this.icon.iconPurple,
+        activeLayer: this.primaryCareLayer,
+      };
+
+      this.isPrimaryCare(option);
+    } else if (!this.layersType?.primaryCare) {
+      if (this.primaryCareService) {
+        // this.isMapLoader = false;
+        this.primaryCareService.unsubscribe();
+      }
+      this.mapApi.mapView.map.remove(this.primaryCareLayer);
+      this.primaryCare = null;
+    }
   }
 
   isNearByMob(option: any) {
@@ -201,6 +263,89 @@ export class SiteFinderMainComponent implements OnInit {
             }
           } else {
             // this.toastrService.warning('NearBy Mobs data not found');
+          }
+          // this.isMapLoader = false;
+        }))
+    );
+  }
+  isHospital(option: any) {
+    const value = {
+      tool: this.sketchList?.tool,
+      type: option.type,
+      layer: option.layer,
+      speciality: option.speciality,
+      practiceName: option.practiceName,
+      coordinates: this.sketchList?.coordinates,
+    };
+
+    this.subscriptions.push(
+      (this.hospitalService = this.siteFinderService
+        .getLayers(value)
+        .subscribe((res) => {
+          if (res.data?.length > 0) {
+            if (option.layer === 'hospital') {
+              const response = res.data.map((x: any) =>
+                x.website
+                  ? {
+                      ...x,
+                      urlTitle: '>> Click here to go to hospital <<',
+                      url: x.website,
+                    }
+                  : { ...x }
+              );
+
+              this.hospital = response;
+              this.hospitalLayer = this.buildDataFt(
+                this.hospital,
+                option.icon,
+                option.title
+              );
+              this.mapApi.mapView.map.add(this.hospitalLayer);
+            }
+          } else {
+            // this.toastrService.warning('Hospital data not found');
+          }
+          // this.isMapLoader = false;
+        }))
+    );
+  }
+
+  isPrimaryCare(option: any) {
+    const value = {
+      tool: this.sketchList?.tool,
+      type: option.type,
+      layer: option.layer,
+      speciality: option.speciality,
+      practiceName: option.practiceName,
+      coordinates: this.sketchList?.coordinates,
+    };
+
+    this.subscriptions.push(
+      (this.primaryCareService = this.siteFinderService
+        .getLayers(value)
+        .subscribe((res) => {
+          if (res.data?.length > 0) {
+            if (option.layer === 'primary-care') {
+              const response = res.data.map((x: any) =>
+                x.website
+                  ? {
+                      ...x,
+                      urlTitle: '>> Click here to go to primary care <<',
+                      url: x.website,
+                    }
+                  : { ...x }
+              );
+
+              this.primaryCare = response;
+              this.primaryCareLayer = this.buildDataFt(
+                this.primaryCare,
+                option.icon,
+                option.title
+              );
+              this.mapApi.mapView.map.add(this.primaryCareLayer);
+            }
+          } else {
+            // this.toastrService.warning('Primary Care data not found');
           }
           // this.isMapLoader = false;
         }))
@@ -318,5 +463,79 @@ export class SiteFinderMainComponent implements OnInit {
         height: Icon.height,
       }),
     });
+  }
+  isParcelAtlas(data: any) {
+    console.log(data);
+    // this.isParcel = data.layer.parcel;
+    // this.layersType = data.layer;
+    // this.parcelAtlas = data.parcel;
+
+    if (data.doctorLocations.length > 0) {
+      const doctorLocation = data.doctorLocations.map((x: any) => ({
+        ...x,
+        lng: x.lon,
+      }));
+      this.doctorLayer = this.buildDataFt(
+        doctorLocation,
+        this.icon.iconYellowDoctor,
+        Lable.doctorLocation
+      );
+      this.mapApi.mapView.map.add(this.doctorLayer);
+    }
+    this.mapApi.isActiveParcelAtlas(data);
+
+    if (!this.sketchList?.sketchStatus || !this.layersType?.parcel) {
+      // this.isParcelRecommendation = false;
+    }
+  }
+  onParcelList(data: any) {
+    // this.isLoader = false;
+    this.parcelRecommendations = [];
+    if (data?.filterData?.length > 0) {
+      this.parcelRecommendations = data?.filterData;
+      this.isZipcodesEmpty = false;
+
+      if (data?.isFilterParcel === true) {
+        this.getScore(data?.filterData);
+      }
+    }
+    console.log( this.parcelRecommendations);
+
+  }
+  getScore(data: any) {
+    if (data?.length > 0) {
+      const result = data.map((x: any) => ({
+        SIT_FULL_S: x.SIT_FULL_S ? x.SIT_FULL_S : '',
+        OWNADDRESS: x.OWNADDRESS ? x.OWNADDRESS : '',
+        DEED_DSCR: x.DEED_DSCR ? x.DEED_DSCR : '',
+        APN: x.APN ? x.APN : '',
+        APN2: x.APN2 ? x.APN2 : '',
+        COUNTY: x.COUNTY ? x.COUNTY : '',
+        SIT_HSE_NU: x.SIT_HSE_NU ? x.SIT_HSE_NU : '',
+        SIT_STR_NA: x.SIT_STR_NA ? x.SIT_STR_NA : '',
+        SIT_CITY: x.SIT_CITY ? x.SIT_CITY : '',
+        SIT_ZIP: x.SIT_ZIP ? Number(x.SIT_ZIP) : 0,
+        SIT_ZIP4: x.SIT_ZIP4 ? Number(x.SIT_ZIP4) : 0,
+        Shape_Area: x.Shape_Area ? Number(x.Shape_Area) : 0,
+        FIPS: x.FIPS ? Number(x.FIPS) : 0,
+      }));
+
+      this.siteFinderService.getParcelScore(result).subscribe((res) => {
+        // tslint:disable-next-line: no-shadowed-variable
+        const result = res.data;
+
+        result.sort((a: any, b: any) => {
+          return b.Score - a.Score;
+        });
+
+        this.parcelRecommendations = this.parcelRecommendations.map(
+          (x: any, i: any) => ({
+            ...x,
+            Score: result[i].Score,
+          })
+        );
+      });
+    }
+    console.log(this.parcelRecommendations);
   }
 }

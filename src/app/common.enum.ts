@@ -296,17 +296,17 @@ export enum Action {
     height = '24px',
     iconGreen = '/assets/icon-green.png',
     iconBlue = '/assets/icon-blue.png',
-    iconYellow = '/assets/img/icon/icon-yellow.png',
-    iconPurple = '/assets/img/icon/icon-purple.png',
-    iconRed = '/assets/img/icon/icon-red.png',
-    iconGrey = '/assets/img/icon/icon-grey.png',
-    iconOrange = '/assets/img/icon/icon-orange.png',
-    iconHospital = '/assets/img/icon/hospital-icon.png',
-    analysisIcon = '/assets/img/icon/analysis-icon.png',
-    comparativeIcon = '/assets/img/icon/comparative.png',
-    iconYellowDoctor = '/assets/img/icon/doctor-yellow.png',
-    deleteIcon = '/assets/img/icon/delete.png',
-    resetIcon = '/assets/img/icon/reset.png'
+    iconYellow = '/assets/icon-yellow.png',
+    iconPurple = '/assets/icon-purple.png',
+    iconRed = '/assets/icon-red.png',
+    iconGrey = '/assets/icon-grey.png',
+    iconOrange = '/assets/icon-orange.png',
+    iconHospital = '/assets/hospital-icon.png',
+    analysisIcon = '/assets/analysis-icon.png',
+    comparativeIcon = '/assets/comparative.png',
+    iconYellowDoctor = '/assets/doctor-yellow.png',
+    deleteIcon = '/assets/delete.png',
+    resetIcon = '/assets/reset.png'
   }
   
   export enum Layers {

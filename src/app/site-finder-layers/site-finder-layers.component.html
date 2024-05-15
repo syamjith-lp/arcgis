@@ -24,5 +24,82 @@
         >
       </div>
     </div>
+    <!--Hospital-->
+    <div class="sitefinder-link ml-n2 layersDropdown">
+      <div class="px-1 custom-control custom-switch" id="toggleButtonDiv">
+        <input
+          type="checkbox"
+          class="custom-control-input p-0"
+          name="hospital"
+          id="hospital"
+          formControlName="hospital"
+          (change)="toggleSwitch('hospital')"
+        />
+        <label class="custom-control-label toggle-label" for="hospital"
+          >Hospitals</label
+        >
+      </div>
+    </div>
+
+    <!--Competitors-->
+    <!-- <div class="row sitefinder-link ml-n2 layersDropdown">
+      <div class="px-1 custom-control custom-switch" id="toggleButtonDiv">
+        <input
+          type="checkbox"
+          class="custom-control-input p-0"
+          name="competitors"
+          id="competitors"
+          formControlName="competitors"
+          (change)="toggleSwitch('competitors')"
+        />
+        <label class="custom-control-label toggle-label" for="competitors"
+          >Competitors</label
+        >
+      </div>
+    </div> -->
+
+    <!--Primary Care-->
+    <div class="row sitefinder-link ml-n2 layersDropdown">
+      <div class="px-1 custom-control custom-switch" id="toggleButtonDiv">
+        <input
+          type="checkbox"
+          class="custom-control-input p-0"
+          name="primaryCare"
+          id="primaryCare"
+          formControlName="primaryCare"
+          (change)="toggleSwitch('primaryCare')"
+        />
+        <label class="custom-control-label toggle-label" for="primaryCare"
+          >Primary Care</label
+        >
+      </div>
+    </div>
+
+    <!--Referring Physicians-->
+    <!-- <div class="row sitefinder-link ml-n2 layersDropdown">
+      <div class="px-1 custom-control custom-switch" id="toggleButtonDiv">
+        <input
+          type="checkbox"
+          class="custom-control-input p-0"
+          name="referringPhysicians"
+          id="referringPhysicians"
+          formControlName="referringPhysicians"
+          (change)="toggleSwitch('referringPhysicians')"
+        />
+        <label
+          class="custom-control-label toggle-label"
+          for="referringPhysicians"
+          >Referring Physicians</label
+        >
+      </div>
+    </div> -->
+
+       <!--Parcel-->
+       <div class="row sitefinder-link ml-n2 layersDropdown">
+        <div class="px-1 custom-control custom-switch" id="toggleButtonDiv">
+            <input type="checkbox" class="custom-control-input p-0" name="parcel" id="parcel" formControlName="parcel" (change)="toggleAtlasParcel()">
+            <label class="custom-control-label toggle-label" for="parcel">Parcels</label>
+        </div>
+    </div>
   </div>
 </div>
